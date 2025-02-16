@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="style.css">
+    
+
+</head>
+<body>
+    <div class="box">
+        <img id="image" src="cute-cats.gif">
+        <h3 id="word">I Love You</h3>
+        <div class="button_box">
+            <button class="yes_button">YES</button>
+            <button class="no_button">NO</button>
+        </div>
+        
+    </div>
+    <div class="container"></div>
+    <script type="module">
+        import { Fireworks } from 'https://esm.run/fireworks-js';
+        let no = document.querySelector('.no_button');
+        let press = 0;
+        let isRight = false; 
+        let yes = document.querySelector('.yes_button');
+        let container = document.querySelector('.container');
+        let options = {
+            gravity: 1.4,
+            opacity: 0.4,
+            autoresize: true,
+            acceleration: 1.00,
+        }
+        let fireworks = new Fireworks(container, options);
+
+        function swapButtons() {
+            if (isRight) {
+                no.style.order = "1";
+                yes.style.order = "0";
+            } else {
+                no.style.order = "0";
+                yes.style.order = "1";
+            }
+            isRight = !isRight;
+        }
+
+        function typeEffect(text, elementID, speed){
+            let i = 0 
+            let element = document.getElementById(elementID);
+            element.innerHTML = "";
+            function effect(){
+                if (i < text.length){
+                    element.innerHTML += text.charAt(i);
+                    i++;
+                    setTimeout(effect, speed);
+                }
+            }
+            effect();
+        }
+        function mobile(){
+            return /Mobi|Android/i.test(navigator.userAgent);
+        }
+
+        yes.addEventListener("click", function(){
+            document.getElementById('image').src = 'strawberry-shortcake.gif';
+            let img = document.getElementById("image")
+            img.style.width = "300px";
+            img.style.height = "auto";
+            typeEffect("I Love You Too", "word", 100);
+            fireworks.start();
+            setTimeout(() => {
+                fireworks.stop();
+            }, 3000)
+            no.disabled = true;
+            no.style.opacity = "1";
+        })
+        
+        no.addEventListener("click", function(){
+            let text = "";
+            if (press == 0){
+                text = "I think you pressed wrong button... try again";
+                document.getElementById('image').src = 'cats-miskey-the-peacemaker.gif';
+            } else if (press == 1){
+                text = "wait... i think you again pressed wrong button... try again";
+                document.getElementById('image').src = 'cats-miskey-the-peacemaker.gif';
+            } else if (press == 2){
+                text = "Did you just press NO again? are you sure?";
+                document.getElementById('image').src = 'cute.gif';
+            } else if (press == 3){
+                text = "fine i just sit here and cry now";
+                document.getElementById('image').src = 'peachcat-cat.gif';
+            } else if (press == 4){
+                text = "Last chance.. think again";
+                document.getElementById('image').src = 'peachcat-cat.gif';
+            } else if (press == 5){ 
+                text = "Now press if  you can!";
+                document.getElementById('image').src = 'airallia-cat-chan.gif';
+                no.addEventListener("click", swapButtons);
+                no.addEventListener("mouseenter", swapButtons,)
+                
+                
+            }
+
+            typeEffect(text, "word", 50);
+            press++;
+        });
+    </script>
+    
+</body>
+</html>
